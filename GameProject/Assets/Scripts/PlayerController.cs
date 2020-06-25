@@ -62,7 +62,8 @@ public class PlayerController : MonoBehaviour
         myRigid = GetComponent<Rigidbody>();   // Rigidbody 컴포넌트를 myRigid에 넣는다.    Serialized 써도 되는데 이 방법을 권장 -> 더 빠르다
         theGunController = FindObjectOfType<GunController>();
         theCrosshair = FindObjectOfType<Crosshair>();
-
+        WeaponManager.isChangeWeapon = true;
+        
         // 초기화
         applySpeed = walkSpeed;     // 달리기 전에는 무조건 걷는 상태이기 때문
         originPosY = theCamera.transform.localPosition.y; // 캐릭터의 y가 아니라 카메라의 y를 내린다. 

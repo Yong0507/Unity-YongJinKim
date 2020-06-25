@@ -34,6 +34,9 @@ public class GunController : MonoBehaviour
         originPos = Vector3.zero;
         audioSource = GetComponent<AudioSource>();
         theCrosshair = FindObjectOfType<Crosshair>();
+
+        WeaponManager.currentWeapon = currentGun.GetComponent<Transform>();
+        WeaponManager.currentWeaponAnim = currentGun.anim;
     }
 
     void Update()
@@ -118,6 +121,15 @@ public class GunController : MonoBehaviour
         {
             CancelFineSight();
             StartCoroutine(ReloadCoroutine());
+        }
+    }
+
+    public void CancelReload()
+    {
+        if (isReload)
+        {
+            StopAllCoroutines();
+            isReload = false;
         }
     }
 
@@ -274,5 +286,20 @@ public class GunController : MonoBehaviour
     public bool GetFineSightMode()
     {
         return isfineSightMode;
+    }
+
+    public void GunChange(Gun _gun)
+    {
+        if (WeaponManager.currentWeapon != null) // 뭔가를 들고 있는 경우
+        {
+            WeaponManager.currentWeapon.gameObject.SetActive(false); // 기존 총이 사라짐
+        }
+
+        currentGun = _gun; // 바꿀 무기가 현재 무기
+        WeaponManager.currentWeapon = currentGun.GetComponent<Transform>();
+        WeaponManager.currentWeaponAnim = currentGun.anim;
+        
+        currentGun.transform.localPosition = Vector3.zero; // 무기 교체 될 때 position 바뀔 수도 있으니 0,0,0ㅇ로 초기화
+        currentGun.gameObject.SetActive(true);
     }
 }

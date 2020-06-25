@@ -73,4 +73,19 @@ public class HandController : MonoBehaviour
         }
         return false;
     }
+
+    public void HandChange(Hand _hand)
+    {
+        if (WeaponManager.currentWeapon != null) // 뭔가를 들고 있는 경우
+        {
+            WeaponManager.currentWeapon.gameObject.SetActive(false); // 기존 총이 사라짐
+        }
+
+        currentHand = _hand; // 바꿀 무기가 현재 무기
+        WeaponManager.currentWeapon = currentHand.GetComponent<Transform>();
+        WeaponManager.currentWeaponAnim = currentHand.anim;
+
+        currentHand.transform.localPosition = Vector3.zero; // 무기 교체 될 때 position 바뀔 수도 있으니 0,0,0ㅇ로 초기화
+        currentHand.gameObject.SetActive(true);
+    }
 }

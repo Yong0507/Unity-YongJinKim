@@ -69,7 +69,7 @@
     <Compile Include="Assets\Scripts\Hand.cs" />
     <Compile Include="Assets\Scripts\HandController.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Weapon Manager.cs" />
+    <Compile Include="Assets\Scripts\WeaponManager.cs" />
     <None Include="Assets\Water Shader\Water_Shader.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/82104/Documents/GitHub/Unity-YongJinKim/GameProject/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

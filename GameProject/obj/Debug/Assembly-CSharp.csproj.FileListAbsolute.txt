@@ -1,0 +1,2 @@
+C:\Users\82104\Documents\GitHub\Unity-YongJinKim\GameProject\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+C:\Users\82104\Documents\GitHub\Unity-YongJinKim\GameProject\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
+    // 활성화 여부.
+    public static bool isActivate = true;
+
     [SerializeField]
     private Gun currentGun; // 현재 소유하고 있는 총 
 
@@ -41,10 +44,13 @@ public class GunController : MonoBehaviour
 
     void Update()
     {
-        GunFireRateCalc();
-        TryFire();
-        TryReload();
-        TryFineSight();
+        if (isActivate)
+        {
+            GunFireRateCalc();
+            TryFire();
+            TryReload();
+            TryFineSight();
+        }
     }
 
     // 연사속도 재계산
@@ -301,5 +307,6 @@ public class GunController : MonoBehaviour
         
         currentGun.transform.localPosition = Vector3.zero; // 무기 교체 될 때 position 바뀔 수도 있으니 0,0,0ㅇ로 초기화
         currentGun.gameObject.SetActive(true);
+        isActivate = true;
     }
 }

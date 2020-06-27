@@ -67,7 +67,7 @@ public class WeaponManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1))
                 // 무기 교체 실행 (서브머신건)
                 StartCoroutine(ChangeWeaponCoroutine("HAND", "맨손"));
-            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
                 // 무기 교체 실행 (맨손)
                 StartCoroutine(ChangeWeaponCoroutine("GUN", "SubMachineGun1"));
         }
@@ -96,9 +96,10 @@ public class WeaponManager : MonoBehaviour
             case "GUN":
                 theGunController.CancelFineSight();
                 theGunController.CancelReload();
+                GunController.isActivate = false;
                 break;
             case "HAND":
-
+                HandController.isActivate = false;
                 break;
         }
     }
@@ -108,7 +109,7 @@ public class WeaponManager : MonoBehaviour
         if (_type == "GUN")
             theGunController.GunChange(gunDictionary[_name]);
 
-        else if (_type == "HANDA")
+        else if (_type == "HAND")
             theHandController.HandChange(handDictionary[_name]);               
     }
 }

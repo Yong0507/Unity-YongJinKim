@@ -9,6 +9,8 @@ public class Minitaur : MonoBehaviour
     [SerializeField] private int hp; // 동물의 체력.
 
     [SerializeField] private float walkSpeed; // 걷기 스피드.
+    [SerializeField] private float runSpeed; // 뛰기 스피드.
+    private float applySpeed;
 
     private Vector3 direction; // 방향.
 
@@ -16,9 +18,13 @@ public class Minitaur : MonoBehaviour
     // 상태변수
     private bool isAction; // 행동중인지 아닌지 판별.
     private bool isWalking; // 걷는지 안 걷는지 판별.
+    private bool isRunning; // 뛰는지 판별.
+    private bool isDead; // 죽었는지 판별.
+
 
     [SerializeField] private float walkTime; // 걷기 시간
     [SerializeField] private float waitTime; // 대기 시간.
+    [SerializeField] private float runTime; // 뛰기 시간.
     private float currentTime;
 
 
@@ -37,20 +43,23 @@ public class Minitaur : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
-        Rotation();
-        ElapseTime();
+        if (!isDead)
+        {
+            Move();
+            Rotation();
+            ElapseTime();
+        }
     }
 
     private void Move()
     {
-        if (isWalking)
+        if (isWalking || isRunning)
             rigid.MovePosition(transform.position + (transform.forward * walkSpeed * Time.deltaTime));
     }
 
     private void Rotation()
     {
-        if (isWalking)
+        if (isWalking || isRunning)
         {
             Vector3 _rotation = Vector3.Lerp(transform.eulerAngles, direction, 0.01f);
             rigid.MoveRotation(Quaternion.Euler(_rotation));
@@ -69,8 +78,12 @@ public class Minitaur : MonoBehaviour
 
     private void ReSet()
     {
-        isWalking = false; isAction = true;
+        isWalking = false;
+        isRunning = false;
+        isAction = true;
+        applySpeed = walkSpeed;
         anim.SetBool("Walking", isWalking);
+        anim.SetBool("Running", isRunning);
         direction.Set(0f, Random.Range(0f, 360f), 0f);
         RandomAction();
     }
@@ -84,7 +97,7 @@ public class Minitaur : MonoBehaviour
         else if (_random == 1)
             Shout();
         else if (_random == 2)
-            Jump();
+            Attack();
         else if (_random == 3)
             TryWalk();
     }
@@ -100,17 +113,53 @@ public class Minitaur : MonoBehaviour
         anim.SetTrigger("Shout");
         Debug.Log("소리쳐");
     }
-    private void Jump()
+    private void Attack()
     {
         currentTime = waitTime;
-        anim.SetTrigger("Jump");
-        Debug.Log("점프");
+        anim.SetTrigger("Attack");
+        Debug.Log("공격");
     }
     private void TryWalk()
     {
         isWalking = true;
         anim.SetBool("Walking", isWalking);
         currentTime = walkTime;
+        applySpeed = walkSpeed;
         Debug.Log("걷기");
     }
+
+    private void Run(Vector3 _targetPos)
+    {
+        direction = Quaternion.LookRotation(transform.position - _targetPos).eulerAngles;
+        currentTime = runTime;
+        isWalking = false;
+        isRunning = true;
+        applySpeed = runSpeed;
+        anim.SetBool("Running", isRunning);
+    }
+
+    public void Damage(int _dmg, Vector3 _targetPos)
+    {
+        if (!isDead)
+        {
+            hp -= _dmg;
+
+            if (hp <= 0)
+            {
+                Dead();
+                return;
+            }
+            anim.SetTrigger("Hurt");
+            Run(_targetPos);
+        }
+    }
+
+    private void Dead()
+    {
+        isWalking = false;
+        isRunning = false;
+        isDead = true;
+        anim.SetTrigger("Dead");
+    }
+
 }

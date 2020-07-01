@@ -68,7 +68,6 @@ public class PlayerController : MonoBehaviour
         originPosY = theCamera.transform.localPosition.y; // 캐릭터의 y가 아니라 카메라의 y를 내린다. 
                                                           // localPosition 쓴 이유 -> Camera는 월드 기준과 플레이어 기준에서 다르다 -> 상대적인 기준을 쓴 것이다
         applyCrouchPosY = originPosY;
-
     }
 
 

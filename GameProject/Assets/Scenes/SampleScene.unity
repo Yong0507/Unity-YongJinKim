@@ -6146,8 +6146,10 @@ MonoBehaviour:
   animalName: Minitaur
   hp: 2
   walkSpeed: 2
+  runSpeed: 0
   walkTime: 2
   waitTime: 2
+  runTime: 0
   anim: {fileID: 918092037}
   rigid: {fileID: 918092041}
   boxCol: {fileID: 918092039}
